@@ -44,7 +44,7 @@ def test_fetch_latest(client):
     assert response.content_length > 0
 
     content_disposition = response.headers.get('Content-Disposition')
-    assert content_disposition == 'inline; filename=latest.jpg'
+    assert content_disposition == 'inline; filename=latest.bin'
 
     # if not changed a 304 is returned
     headers['If-None-Match'] = etag

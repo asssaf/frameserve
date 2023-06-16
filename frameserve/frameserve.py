@@ -57,7 +57,15 @@ def latest():
             return Response(status=304)
 
 
-        #TODO mime type from gcs metadata?
-        response = make_response(send_file(temp.name, attachment_filename='latest.jpg'))
+        filename = None
+        for ext in ['.dithered.jpg', '.jpg', '.bin']:
+            if blob.name.endswith(ext):
+                filename = "latest%s" % ext
+                break
+
+        if not filename:
+            return Response(status=500)
+
+        response = make_response(send_file(temp.name, attachment_filename=filename))
         response.headers['etag'] = blob.etag
         return response
